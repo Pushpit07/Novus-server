@@ -1,0 +1,28 @@
+{
+	"name": "novus-server",
+	"version": "1.0.0",
+	"description": "Express server on Vercel",
+	"main": "server.js",
+	"engines": {
+		"node": "14.x"
+	},
+	"scripts": {
+		"start": "node server.js",
+		"dev": "VERCEL_ENV=development nodemon server.js",
+		"prod": "VERCEL_ENV=production node server.js"
+	},
+	"keywords": [],
+	"author": "Pushpit",
+	"license": "ISC",
+	"dependencies": {
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"crypto-random-string": "^2.0.0",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"fs": "^0.0.1-security",
+		"mongodb": "^4.9.1",
+		"nodemon": "^2.0.15",
+		"path": "^0.12.7"
+	}
+}
