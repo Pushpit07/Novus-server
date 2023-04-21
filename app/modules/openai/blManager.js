@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 exports.BLManager = class BLManager {
 	analyzeTextIntent = async (data) => {
 		console.log(data);
@@ -12,31 +14,34 @@ exports.BLManager = class BLManager {
 
 		// Call completions endpoint
 		try {
-			const completionResponse = await fetch(openai_url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-				},
-				body: JSON.stringify({
+			const completionResponse = await axios.post(
+				openai_url,
+				{
 					model: "text-davinci-003",
 					prompt: prompt,
 					max_tokens: 3000,
 					temperature: 0.7,
-				}),
-			});
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+					},
+				}
+			);
 
-			// Select the top choice and send back
-			const completion = await completionResponse.json();
-			if (completion.error) {
+			if (completionResponse.error) {
 				throw new Error("OpenAI Quota Exceeded\n\n" + completion.error.message);
 			}
 
-			const baseCompletion = completion.choices.pop();
+			// Select the top choice and send back the result
+			const baseCompletion = completionResponse.data.choices.pop();
+			const output = baseCompletion.text.trim();
+			console.log(output);
 
 			// Let's see what we get!
-			if (baseCompletion) {
-				const summary_result = baseCompletion.text;
+			if (output) {
+				const summary_result = output;
 				return summary_result;
 			}
 		} catch (error) {
