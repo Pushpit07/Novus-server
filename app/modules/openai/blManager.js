@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 exports.BLManager = class BLManager {
 	analyzeTextIntent = async (data) => {
 		console.log(data);
